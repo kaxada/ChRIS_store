@@ -26,9 +26,9 @@ def append_collection_links(response, link_dict):
     Convenience function to append document-level links to a response object.
     """
     data = response.data
-    if not 'collection_links' in data:
+    if 'collection_links' not in data:
         data['collection_links'] = {}
-        
+
     for (link_relation_name, url) in link_dict.items():
         data['collection_links'][link_relation_name] = url
     return response
@@ -38,9 +38,7 @@ def append_collection_template(response, template_data):
     """
     Convenience function to append to a response a collection+json template.
     """
-    data = []
-    for (k, v) in template_data.items():
-        data.append({"name": k, "value": v})
+    data = [{"name": k, "value": v} for k, v in template_data.items()]
     response.data["template"] = {"data": data}
     return response
 
@@ -54,9 +52,7 @@ def append_collection_querylist(response, query_url_list):
         relative_url = urlparse(query_url).path
         match = resolve(relative_url)
         filters = match.func.cls.filterset_class.base_filters
-        data = []
-        for k in filters.keys():
-            data.append({"name": k, "value": ""})
+        data = [{"name": k, "value": ""} for k in filters.keys()]
         queries.append({'href': query_url, 'rel': 'search', "data": data})
     response.data["queries"] = queries
     return response

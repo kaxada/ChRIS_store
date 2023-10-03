@@ -25,13 +25,25 @@ class CollectionJsonRenderer(JSONRenderer):
             return None
 
     def _get_related_fields(self, fields, id_field):
-        return [k for (k, v) in fields
-                if k != id_field
-                and (isinstance(v, HyperlinkedRelatedField)
-                     or isinstance(v, HyperlinkedIdentityField)
-                     or isinstance(v, ItemLinkField)
-                     or (isinstance(v, ManyRelatedField)
-                         and isinstance(v.child_relation, HyperlinkedRelatedField)))]
+        return [
+            k
+            for (k, v) in fields
+            if k != id_field
+            and (
+                isinstance(
+                    v,
+                    (
+                        HyperlinkedRelatedField,
+                        HyperlinkedIdentityField,
+                        ItemLinkField,
+                    ),
+                )
+                or (
+                    isinstance(v, ManyRelatedField)
+                    and isinstance(v.child_relation, HyperlinkedRelatedField)
+                )
+            )
+        ]
 
     def _make_link(self, rel, href):
         return {'rel': rel, 'href': href}

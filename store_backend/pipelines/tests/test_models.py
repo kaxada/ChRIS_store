@@ -55,7 +55,7 @@ class ModelTests(TestCase):
         for i in range(2):
             (default_piping_param, tf) = default_model_class.objects.get_or_create(
                 plugin_piping=self.pips[i], plugin_param=plg_param_ds)
-            default_piping_param.value = "test" + str(i)
+            default_piping_param.value = f"test{str(i)}"
             default_piping_param.save()
 
     def tearDown(self):

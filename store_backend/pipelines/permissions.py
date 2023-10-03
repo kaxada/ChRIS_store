@@ -26,17 +26,16 @@ class IsChrisOrOwnerAndLockedOrNotLockedReadOnly(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        pipeline = obj.plugin_piping.pipeline
         if request.user.is_authenticated and request.user.username == 'chris':
             # superuser 'chris' always has read/write access
             return True
 
-        if pipeline.locked:
-            # owner has read/write access
-            return request.user == pipeline.owner
-        else:
-            # only allow read access (GET, HEAD or OPTIONS requests.)
-            return request.method in permissions.SAFE_METHODS
+        pipeline = obj.plugin_piping.pipeline
+        return (
+            request.user == pipeline.owner
+            if pipeline.locked
+            else request.method in permissions.SAFE_METHODS
+        )
 
 
 class IsChrisOrOwnerOrNotLocked(permissions.BasePermission):

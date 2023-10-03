@@ -55,9 +55,7 @@ class MemoryField(models.Field):
 
     def get_prep_value(self, value):
         """Python object --> Query Value."""
-        if value is None:
-            return None
-        return int(value)
+        return None if value is None else int(value)
 
     def to_python(self, value):
         """Query value --> Python object."""
@@ -78,9 +76,7 @@ class CPUField(models.Field):
 
     def get_prep_value(self, value):
         """Python object --> Query Value."""
-        if value is None:
-            return None
-        return int(value)
+        return None if value is None else int(value)
 
     def to_python(self, value):
         """Query value --> Python object."""

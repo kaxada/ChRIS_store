@@ -124,11 +124,12 @@ class PluginPiping(models.Model):
         the piping doesn't have a default value.
         """
         for type in DEFAULT_PIPING_PARAMETER_MODELS:
-            typed_parameters = getattr(self, type + '_param')
+            typed_parameters = getattr(self, f'{type}_param')
             for parameter in typed_parameters.all():
                 if parameter.value is None:
-                    raise ValueError('A default is required for parameter %s'
-                                     % parameter.plugin_param.name)
+                    raise ValueError(
+                        f'A default is required for parameter {parameter.plugin_param.name}'
+                    )
 
 
 class DefaultPipingStrParameter(models.Model):

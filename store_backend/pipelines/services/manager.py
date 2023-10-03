@@ -121,7 +121,7 @@ class PipelineManager(object):
         try:
             pipeline = Pipeline.objects.get(pk=id)
         except Pipeline.DoesNotExist:
-            raise NameError("Couldn't find pipeline with id '%s' in the system" % id)
+            raise NameError(f"Couldn't find pipeline with id '{id}' in the system")
         return pipeline
 
 

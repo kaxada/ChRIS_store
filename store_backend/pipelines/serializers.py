@@ -93,7 +93,7 @@ class PipelineSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError([f'Invalid JSON string {plugin_tree}.'])
         except Exception:
             raise serializers.ValidationError([f'Invalid tree list in {plugin_tree}'])
-        if len(plugin_list) == 0:
+        if not plugin_list:
             raise serializers.ValidationError([f'Invalid empty list in {plugin_tree}'])
 
         for d in plugin_list:
@@ -131,7 +131,7 @@ class PipelineSerializer(serializers.HyperlinkedModelSerializer):
         try:
             tree_dict = PipelineSerializer.get_tree(plugin_list)
             PipelineSerializer.validate_tree(tree_dict)
-        except (ValueError, Exception) as e:
+        except Exception as e:
             raise serializers.ValidationError([str(e)])
         return tree_dict
 
@@ -404,7 +404,7 @@ class GenericDefaultPipingParameterSerializer(serializers.HyperlinkedModelSerial
         request = self.context['request']
         # here default piping parameter detail view names are assumed to
         # follow a convention
-        view_name = 'defaultpiping' + TYPES[obj.plugin_param.type] + 'parameter-detail'
+        view_name = f'defaultpiping{TYPES[obj.plugin_param.type]}parameter-detail'
         return reverse(view_name, request=request, kwargs={"pk": obj.id})
 
     def get_value(self, obj):

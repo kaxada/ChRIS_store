@@ -286,7 +286,7 @@ class PluginParameter(models.Model):
         """
         Custom method to get the default parameter instance regardless of its type.
         """
-        default_attr_name = '%s_default' % self.type
+        default_attr_name = f'{self.type}_default'
         return getattr(self, default_attr_name, None)
 
 

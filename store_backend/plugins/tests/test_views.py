@@ -63,7 +63,7 @@ class ViewTests(TestCase):
         (plugin, tf) = Plugin.objects.get_or_create(meta=pl_meta,
                                                     version=self.plugin_version,
                                                     dock_image='fnndsc/pl-testapp')
-        plugin.descriptor_file.name = self.plugin_name + '.json'
+        plugin.descriptor_file.name = f'{self.plugin_name}.json'
         plugin.save()
 
     def tearDown(self):

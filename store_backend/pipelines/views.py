@@ -177,8 +177,7 @@ class PipelineDefaultParameterList(generics.ListAPIView):
         queried pipeline.
         """
         queryset = self.get_default_parameters_queryset()
-        response = services.get_list_response(self, queryset)
-        return response
+        return services.get_list_response(self, queryset)
 
     def get_default_parameters_queryset(self):
         """
@@ -186,9 +185,13 @@ class PipelineDefaultParameterList(generics.ListAPIView):
         type.
         """
         pipeline = self.get_object()
-        queryset = []
-        queryset.extend(list(DefaultPipingStrParameter.objects.filter(
-            plugin_piping__pipeline=pipeline)))
+        queryset = list(
+            list(
+                DefaultPipingStrParameter.objects.filter(
+                    plugin_piping__pipeline=pipeline
+                )
+            )
+        )
         queryset.extend(list(DefaultPipingIntParameter.objects.filter(
             plugin_piping__pipeline=pipeline)))
         queryset.extend(list(DefaultPipingFloatParameter.objects.filter(

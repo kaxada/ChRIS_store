@@ -58,7 +58,7 @@ class PluginManagerTests(TestCase):
                                                     **data)
         #f = ContentFile(self.plg_repr)
         #f.name = self.plugin_name + '.json'
-        plugin.descriptor_file.name = self.plugin_name + '.json'
+        plugin.descriptor_file.name = f'{self.plugin_name}.json'
         plugin.save()
 
         # add plugin's parameters
@@ -121,11 +121,11 @@ class PluginManagerTests(TestCase):
         """
         arg = mock.Mock()
         f = ContentFile(json.dumps(self.plg_repr).encode())
-        f.name = self.plugin_name + '.json'
+        f.name = f'{self.plugin_name}.json'
         arg.descriptorfile = f
         self.assertEqual(f, self.pl_manager.get_plugin_descriptor_file(arg))
         arg.descriptorfile = None
         arg.descriptorstring = json.dumps(self.plg_repr)
-        arg.name = self.plugin_name + '.json'
+        arg.name = f'{self.plugin_name}.json'
         f = self.pl_manager.get_plugin_descriptor_file(arg)
         self.assertEqual(self.plg_repr, json.load(f))

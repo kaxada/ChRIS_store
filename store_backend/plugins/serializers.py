@@ -104,7 +104,7 @@ class PluginMetaCollaboratorSerializer(serializers.HyperlinkedModelSerializer):
                 # check whether username is a system-registered user
                 user = User.objects.get(username=username)
             except ObjectDoesNotExist:
-                raise serializers.ValidationError("Could not find user %s." % username)
+                raise serializers.ValidationError(f"Could not find user {username}.")
             if user.username == req_user.username:
                 raise serializers.ValidationError(
                     "Can not be the user making the request.")
@@ -392,7 +392,12 @@ class PluginSerializer(serializers.HyperlinkedModelSerializer):
             param_type = [key for key in TYPES if TYPES[key] == param['type']]
             if not param_type:
                 raise serializers.ValidationError(
-                    {'descriptor_file': ['Invalid parameter type %s.' % param['type']]})
+                    {
+                        'descriptor_file': [
+                            f"Invalid parameter type {param['type']}."
+                        ]
+                    }
+                )
             param['type'] = param_type[0]
             default = param['default'] if 'default' in param else None
             optional = param['optional'] if 'optional' in param else None
@@ -480,7 +485,7 @@ class PluginSerializer(serializers.HyperlinkedModelSerializer):
         Custom method to check that a required descriptor is in the plugin app
         representation.
         """
-        if not (descriptor_name in app_repr):
+        if descriptor_name not in app_repr:
             raise serializers.ValidationError(
                 {'descriptor_file': [f'Descriptor {descriptor_name} must be in the app '
                                      f'representation dictionary.']})

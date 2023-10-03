@@ -71,7 +71,7 @@ class PluginManager(object):
         try:
             plugin_meta = PluginMeta.objects.get(name=args.name)
         except PluginMeta.DoesNotExist:
-            raise NameError("Couldn't find plugin '%s' in the system" % args.name)
+            raise NameError(f"Couldn't find plugin '{args.name}' in the system")
         data = {'name': plugin_meta.name, 'public_repo': args.publicrepo}
         plugin_meta_serializer = PluginMetaSerializer(plugin_meta, data=data)
         plugin_meta_serializer.is_valid(raise_exception=True)
@@ -111,7 +111,7 @@ class PluginManager(object):
         try:
             plugin = Plugin.objects.get(pk=id)
         except Plugin.DoesNotExist:
-            raise NameError("Couldn't find plugin with id '%s' in the system" % id)
+            raise NameError(f"Couldn't find plugin with id '{id}' in the system")
         return plugin
 
     @staticmethod
@@ -124,7 +124,7 @@ class PluginManager(object):
         else:
             app_repr = json.loads(args.descriptorstring)
             f = ContentFile(json.dumps(app_repr).encode())
-            f.name = args.name + '.json'
+            f.name = f'{args.name}.json'
         return f
 
 
